@@ -16,43 +16,7 @@ public class FTPUtility : MonoBehaviour
         //ShowFtpFileAndDirectory("ftp://121.43.191.40:21/WindowsPlayer/");
         //StartCoroutine(DownloadFile("ftp://121.43.191.40:21/Windows/问号.png"));
         
-        FTPEditor.UploadFile("upload.txt");
-    }
-
-    private static string _commonUrl = "ftp://121.43.191.40:21";
-
-    public static string GetFilePath(string fileName)
-    {
-        return string.Format("{0}/{1}", _commonUrl, fileName);
-    }
-
-    public static string GetUploadUrl(string fileName)
-    {
-        return string.Format("{0}/{1}/{2}", _commonUrl, GetUploadPlatform(),fileName);
-    }
-
-    private static string GetUploadPlatform()
-    {
-        string result = "";
-
-        switch (Application.platform)
-        {
-            case RuntimePlatform.Android:
-                result = "Android";
-                break;
-            case RuntimePlatform.WindowsEditor:
-            case RuntimePlatform.WindowsPlayer:
-                result = "WindowsPlayer";
-                break;
-            case RuntimePlatform.IPhonePlayer:
-                result = "IPhonePlayer";
-                break;
-            default:
-                Debug.LogError("当前平台不支持，请确认平台！");
-                break;
-        }
-
-        return result;
+        //FTPEditor.UploadFile("upload.txt");
     }
 
     public static FtpWebRequest CreatFtpWebRequest(string url, string methodName)

@@ -62,4 +62,9 @@ public class EditorTools : Editor
         // 实例化预制体到Canvas下
         GameObject.Instantiate(prefab,GameObject.Find("Canvas").transform);
     }
+
+    public static string GetUploadPlatform()
+    {
+        return EditorUserBuildSettings.activeBuildTarget.ToString();
+    }
 }
