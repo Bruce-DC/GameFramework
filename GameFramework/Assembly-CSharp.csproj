@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\Utility\Utility.cs" />
      <Compile Include="Assets\Beautiful Progress Bar Free - CYKO\Scripts\SliderScripts.cs" />
      <Compile Include="Assets\Scripts\AssetBundle\AssetBundleUtility.cs" />
+     <Compile Include="Assets\Scripts\Utility\VersionManager.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1c1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

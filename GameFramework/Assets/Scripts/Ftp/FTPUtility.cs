@@ -15,11 +15,24 @@ public class FTPUtility : MonoBehaviour
 
         //ShowFtpFileAndDirectory("ftp://121.43.191.40:21/WindowsPlayer/");
         //StartCoroutine(DownloadFile("ftp://121.43.191.40:21/Windows/问号.png"));
-        
+
         //FTPEditor.UploadFile("upload.txt");
     }
 
-    public static FtpWebRequest CreatFtpWebRequest(string url, string methodName)
+    private string ftpRootURL = "ftp://121.43.191.40:21/";
+    private string downloadURL;
+    
+    private static FTPUtility _instance;
+
+    public static FTPUtility GetInstance()
+    {
+        if (_instance == null)
+            _instance = new FTPUtility();
+
+        return _instance;
+    }
+
+    public FtpWebRequest CreatFtpWebRequest(string url, string methodName)
     {
         FtpWebRequest ftpWebRequest = (FtpWebRequest) FtpWebRequest.Create(url);
         ftpWebRequest.Credentials = new NetworkCredential("ftptest", "boshi0513");
@@ -153,11 +166,13 @@ public class FTPUtility : MonoBehaviour
     /// 下载文件
     /// </summary>
     /// <param name="url">待下载的文件路径，形如ftp://111.111.11.1/test.txt</param>
-    public IEnumerator DownloadFile(string url)
+    private IEnumerator Download(string url)
     {
+        Debug.Log("Download");
         long downloadFileAllLength = 0;
         long downloadFileAlreadyLength = 0;
-        string savedFilePath = Application.dataPath + "/SaveFiles/" + url.Replace("ftp://121.43.191.40:21/", "");
+        string savedFilePath = Application.persistentDataPath + "/SaveFiles/" + url.Replace(ftpRootURL, "");
+        Debug.Log(savedFilePath);
         try
         {
             //获取待下载文件的大小
@@ -201,7 +216,16 @@ public class FTPUtility : MonoBehaviour
         Debug.Log("Download success!");
         fileStream.Close();
 
-        //yield return new WaitForSeconds(0.1f);
-        //AssetDatabase.Refresh();
+        yield return new WaitForSeconds(0.1f);
+        AssetDatabase.Refresh();
     }
+
+    public void DownloadFile(string fileName)
+    {
+        downloadURL = String.Format("{0}{1}",ftpRootURL,fileName);
+        Debug.Log("准备下载文件："+fileName+",文件地址为："+downloadURL);
+        StartCoroutine(Download(downloadURL));
+    }
+    
+    
 }

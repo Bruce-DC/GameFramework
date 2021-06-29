@@ -156,7 +156,7 @@ public class AssetBundleEditor
         string url = FTPEditor.GetUploadUrl(newFileName);
         string filepath = AB_Path + "/" + newFileName;
         
-        FtpWebRequest request = FTPUtility.CreatFtpWebRequest(url, WebRequestMethods.Ftp.UploadFile);
+        FtpWebRequest request = FTPUtility.GetInstance().CreatFtpWebRequest(url, WebRequestMethods.Ftp.UploadFile);
         Stream responseStream = request.GetRequestStream();
 
         FileStream fs = File.OpenRead(filepath);
