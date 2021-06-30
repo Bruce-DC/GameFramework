@@ -11,12 +11,37 @@ public class FTPUtility : MonoBehaviour
 {
     private void Start()
     {
+        InitpersistentDataPath();
         //ShowFtpFileAndDirectory("ftp://121.43.191.40:21/Windows/");
 
         //ShowFtpFileAndDirectory("ftp://121.43.191.40:21/WindowsPlayer/");
-        //StartCoroutine(DownloadFile("ftp://121.43.191.40:21/Windows/问号.png"));
+        //StartCoroutine(Download("ftp://121.43.191.40:21/Windows/MasterVersion.txt"));
 
         //FTPEditor.UploadFile("upload.txt");
+        
+        masterVersionFilePath = String.Format("{0}/SaveFiles/{1}/{2}", Application.persistentDataPath, Utility.GetPlatform(), masterVersionFileName);
+
+        CheckVersion();
+    }
+    
+    string masterVersionFilePath;
+    private string masterVersionFileName = "MasterVersion.txt";
+
+    void CheckVersion()
+    {
+        Debug.Log(masterVersionFilePath);
+        if (File.Exists(masterVersionFilePath))
+        {
+            Debug.Log("判断版本是否一致");
+            ///获取服务端的版本号，与本地文件中的对比，如果一致则继续启动流程
+            /// 如果不一致，判断是否需要强更包(一般不用)，需要强更时提示玩家进入商店下载更新
+            /// 不需要强更时，直接更新不同的资源和新的资源
+        }
+        else
+        {
+            Debug.Log("版本文件不存在，第一次启动游戏，更新之。");
+            DownloadFile(masterVersionFileName);
+        }
     }
 
     private string ftpRootURL = "ftp://121.43.191.40:21/";
@@ -222,10 +247,17 @@ public class FTPUtility : MonoBehaviour
 
     public void DownloadFile(string fileName)
     {
-        downloadURL = String.Format("{0}{1}",ftpRootURL,fileName);
+        downloadURL = String.Format("{0}{1}/{2}",ftpRootURL, Utility.GetPlatform(),fileName);
         Debug.Log("准备下载文件："+fileName+",文件地址为："+downloadURL);
-        StartCoroutine(Download(downloadURL));
+        StartCoroutine(GetInstance().Download(downloadURL));
     }
-    
-    
+
+    private void InitpersistentDataPath()
+    {
+        string path = string.Format("{0}{1}/{2}", Application.persistentDataPath, "/SaveFiles/", Utility.GetPlatform());
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+    }
 }
