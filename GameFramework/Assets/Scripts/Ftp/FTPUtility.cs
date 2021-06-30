@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FTPUtility : MonoBehaviour
 {
@@ -23,19 +24,26 @@ public class FTPUtility : MonoBehaviour
 
         CheckVersion();
     }
+
+    public Slider uiSlider;
     
     string masterVersionFilePath;
     private string masterVersionFileName = "MasterVersion.txt";
 
+    private string testDownloadFile = "ab_texture";
+
     void CheckVersion()
     {
-        Debug.Log(masterVersionFilePath);
         if (File.Exists(masterVersionFilePath))
         {
             Debug.Log("判断版本是否一致");
             ///获取服务端的版本号，与本地文件中的对比，如果一致则继续启动流程
             /// 如果不一致，判断是否需要强更包(一般不用)，需要强更时提示玩家进入商店下载更新
             /// 不需要强更时，直接更新不同的资源和新的资源
+            ///
+            
+            
+            DownloadFile(testDownloadFile);
         }
         else
         {
@@ -232,9 +240,10 @@ public class FTPUtility : MonoBehaviour
             bytesRead = responseStream.Read(buffer, 0, buflength);
             fileStream.Write(buffer, 0, bytesRead);
             downloadFileAlreadyLength += bytesRead;
-            //Debug.Log("BytesRead:" + bytesRead + "AlreadyRead:" + downloadFileAlreadyLength);
+            Debug.Log("BytesRead:" + bytesRead + "AlreadyRead:" + downloadFileAlreadyLength);
             //此处用于使用协程更新下载进度条，避免大文件的下载直接导致unity的假死
             //yield return StartCoroutine(UpdateUISlider(downloadFileAlreadyLength));
+            //uiSlider.value = downloadFileAlreadyLength/downloadFileAllLength;
             yield return new WaitForEndOfFrame();
         }
 
@@ -243,6 +252,12 @@ public class FTPUtility : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
         AssetDatabase.Refresh();
+    }
+
+    IEnumerator UpdateUISlider(long length)
+    {
+        uiSlider.value = length;
+        yield return null;
     }
 
     public void DownloadFile(string fileName)
