@@ -10,6 +10,25 @@ using UnityEngine.UI;
 
 public class FTPUtility : MonoBehaviour
 {
+    private bool isDownloading = true;
+    
+    /// <summary>
+    /// 每0.5秒更新一次界面上的下载速度
+    /// </summary>
+    private float updateDownloadSpeedTime = 0.5f;
+
+    /// <summary>
+    /// 更新下载速度前，文件下载的大小
+    /// </summary>
+    private long preDownloadSize = 0;
+
+    /// <summary>
+    /// 更新下载速度的时候，文件当前已经下载的大小
+    /// </summary>
+    private long curDownloadSize = 0;
+
+    private WebClient wb;
+    
     private void Start()
     {
         InitpersistentDataPath();
@@ -25,7 +44,28 @@ public class FTPUtility : MonoBehaviour
         CheckVersion();
     }
 
+    private void Update()
+    {
+        if (isDownloading)
+        {
+            updateDownloadSpeedTime -= Time.deltaTime;
+            if (updateDownloadSpeedTime <= 0.0f)
+            {
+                updateDownloadSpeedTime += 0.5f;
+
+                if (curDownloadSize > preDownloadSize)
+                {
+                    speedText.text = string.Format("下载速度为：{0}kb/s",
+                        ((curDownloadSize - preDownloadSize) / 1024 / 0.5f).ToString("0.00"));
+                    preDownloadSize = curDownloadSize;
+                }
+            }
+        }
+    }
+
     public Slider uiSlider;
+    public Text speedText;
+    public Text progressText;
     
     string masterVersionFilePath;
     private string masterVersionFileName = "MasterVersion.txt";
@@ -44,21 +84,11 @@ public class FTPUtility : MonoBehaviour
             /// 不需要强更时，直接更新不同的资源和新的资源
             ///
 
-            
-            
-            downloadURL = String.Format("{0}{1}/{2}",ftpRootURL, Utility.GetPlatform(),testDownloadFile);
-            
-            //Debug.Log(Application.persistentDataPath + "/SaveFiles/" + downloadURL.Replace(ftpRootURL, ""));
-            
-            WebClient wb = new WebClient();
-            wb.Credentials = new NetworkCredential("ftptest", "boshi0513");
-
-            wb.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-            wb.DownloadFileAsync(new Uri(downloadURL),Application.persistentDataPath + "/SaveFiles/" + downloadURL.Replace(ftpRootURL, ""));
-            
             //wb.DownloadFile(downloadURL,Application.persistentDataPath + "/SaveFiles/" + downloadURL.Replace(ftpRootURL, ""));
             
-            DownloadFile(testDownloadFile);
+            //DownloadFile(testDownloadFile);
+            
+            DownloadFileByWebClient(testDownloadFile);
         }
         else
         {
@@ -67,36 +97,12 @@ public class FTPUtility : MonoBehaviour
         }
     }
     
-    private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
-        Debug.LogError(string.Format("{0} MB / {1} MB", (e.BytesReceived / 1024d / 1024d).ToString("0.00"),  (GetDownloadFileSize(downloadURL) / 1024d / 1024d).ToString("0.00")));
-        
-        
-        // //下载的总量
-        // PrecentData preData = new PrecentData();
-        // preData.total = string.Format("{0} MB / {1} MB", (e.BytesReceived / 1024d / 1024d).ToString("0.00"),  (e.TotalBytesToReceive / 1024d / 1024d).ToString("0.00"));
-        // preData.precent = (float)e.BytesReceived / (float)e.TotalBytesToReceive;
-        //
-        //
-        //
-        // string value = string.Format("{0} kb/s", (e.BytesReceived / 1024d / sw.Elapsed.TotalSeconds).ToString("0.00"));
-        //
-        // preData.speed = value;
-        //
-        // Loom.QueueOnMainThread((param) =>
-        // {
-        //     NotificationCenter.Get().ObjDispatchEvent(KEventKey.m_evDownload, preData);
-        // }, null);
-        //
-        //
-        // NotiData data = new NotiData(NotiConst.UPDATE_PROGRESS, value);
-        // if (m_SyncEvent != null) m_SyncEvent(data);
-        //
-        // if (e.ProgressPercentage == 100 && e.BytesReceived == e.TotalBytesToReceive) {
-        //     sw.Reset();
-        //
-        //     data = new NotiData(NotiConst.UPDATE_DOWNLOAD, currDownFile);
-        //     if (m_SyncEvent != null) m_SyncEvent(data);
-        // }
+    private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+    {
+        curDownloadSize = e.BytesReceived;
+        uiSlider.value = ((float) e.BytesReceived / (float) downloadFileSize);
+        progressText.text = string.Format("{0} MB / {1} MB", (e.BytesReceived / 1024d / 1024d).ToString("0.00"),
+            (downloadFileSize / 1024d / 1024d).ToString("0.00"));
     }
 
     private string ftpRootURL = "ftp://121.43.191.40:21/";
@@ -249,6 +255,7 @@ public class FTPUtility : MonoBehaviour
     private IEnumerator Download(string url)
     {
         Debug.Log("Download");
+        isDownloading = true;
         long downloadFileAllLength = 0;
         long downloadFileAlreadyLength = 0;
         string savedFilePath = Application.persistentDataPath + "/SaveFiles/" + url.Replace(ftpRootURL, "");
@@ -281,45 +288,76 @@ public class FTPUtility : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
         AssetDatabase.Refresh();
-    }
 
-    private long GetDownloadFileSize(string fileURL)
-    {
-        long downloadFileAllLength = 0;
-        try
-        {
-            //获取待下载文件的大小
-            FtpWebRequest resFile = CreatFtpWebRequest(fileURL, WebRequestMethods.Ftp.GetFileSize);
-            using (FtpWebResponse res = (FtpWebResponse) resFile.GetResponse())
-            {
-                Debug.Log("All Length: " + res.ContentLength);
-                downloadFileAllLength = res.ContentLength;
-                //slider.maxValue = res.ContentLength;
-                if (res == null)
-                {
-                    Debug.LogError("获取资源大小出错");
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Download filed: " + e.Message);
-        }
-
-        return downloadFileAllLength;
-    }
-
-    IEnumerator UpdateUISlider(long length)
-    {
-        uiSlider.value = length;
-        yield return null;
+        isDownloading = false;
     }
 
     public void DownloadFile(string fileName)
     {
         downloadURL = String.Format("{0}{1}/{2}",ftpRootURL, Utility.GetPlatform(),fileName);
         Debug.Log("准备下载文件："+fileName+",文件地址为："+downloadURL);
-        StartCoroutine(GetInstance().Download(downloadURL));
+        
+        try
+        {
+            //获取待下载文件的大小
+            FtpWebRequest resFile = CreatFtpWebRequest(downloadURL, WebRequestMethods.Ftp.GetFileSize);
+            using (FtpWebResponse res = (FtpWebResponse) resFile.GetResponse())
+            {
+                Debug.Log("All Length: " + res.ContentLength);
+                downloadFileSize = res.ContentLength;
+                //slider.maxValue = res.ContentLength;
+                if (res == null)
+                {
+                    Debug.LogError("获取资源大小出错");
+                    return;
+                }
+                
+                StartCoroutine(GetInstance().Download(downloadURL));
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Download filed: " + e.Message);
+        }
+    }
+    
+    public void DownloadFileByWebClient(string fileName)
+    {
+        // downloadURL = String.Format("{0}{1}/{2}",ftpRootURL, Utility.GetPlatform(),fileName);
+        downloadURL = String.Format("{0}{1}/{2}",ftpRootURL, Utility.GetPlatform(),fileName);
+        Debug.Log("准备下载文件："+fileName+",文件地址为："+downloadURL);
+        
+        try
+        {
+            //获取待下载文件的大小
+            FtpWebRequest resFile = CreatFtpWebRequest(downloadURL, WebRequestMethods.Ftp.GetFileSize);
+            using (FtpWebResponse res = (FtpWebResponse) resFile.GetResponse())
+            {
+                Debug.Log("All Length: " + res.ContentLength);
+                downloadFileSize = res.ContentLength;
+                //slider.maxValue = res.ContentLength;
+                if (res == null)
+                {
+                    Debug.LogError("获取资源大小出错");
+                    return;
+                }
+                
+                
+            
+                //Debug.Log(Application.persistentDataPath + "/SaveFiles/" + downloadURL.Replace(ftpRootURL, ""));
+            
+                wb = new WebClient();
+                wb.Credentials = new NetworkCredential("ftptest", "boshi0513");
+
+                wb.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
+                wb.DownloadFileAsync(new Uri(downloadURL),Application.persistentDataPath + "/SaveFiles/" + downloadURL.Replace(ftpRootURL, ""));
+                //wb.CancelAsync();
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Download filed: " + e.Message);
+        }
     }
 
     private void InitpersistentDataPath()
@@ -328,6 +366,15 @@ public class FTPUtility : MonoBehaviour
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (wb != null)
+        {
+            wb.DownloadProgressChanged -= new DownloadProgressChangedEventHandler(ProgressChanged);
+            wb.CancelAsync();
         }
     }
 }
