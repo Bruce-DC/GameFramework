@@ -52,40 +52,40 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod_studio.cs" />
-     <Compile Include="Assets\Plugins\FMOD\platforms\android\src\PlatformAndroid.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\PlatformGroup.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\RuntimeUtils.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioGlobalParameterTrigger.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\FMODRuntimeManagerOnGUIHelper.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod_dsp.cs" />
-     <Compile Include="Assets\Plugins\FMOD\platforms\win\src\PlatformWindows.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\PlatformMobileLow.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\PlatformGroup.cs" />
      <Compile Include="Assets\Plugins\FMOD\platforms\ios\src\PlatformIOS.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\RuntimeManager.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioEventEmitter.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\EventHandler.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\AutomatableSlots.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\EventRefAttribute.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioParameterTrigger.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\Settings.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioBankLoader.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\PlatformPlayInEditor.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioListener.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod_errors.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\ParamRef.cs" />
+     <Compile Include="Assets\Plugins\FMOD\platforms\html5\src\PlatformWebGL.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\RuntimeUtils.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\BankRefAttribute.cs" />
      <Compile Include="Assets\Plugins\FMOD\platforms\tvos\src\PlatformAppleTV.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\Platform.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\FMODRuntimeManagerOnGUIHelper.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\RuntimeManager.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\EventHandler.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\EventRefAttribute.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\ParamRefAttribute.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioListener.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\PlatformMobileLow.cs" />
+     <Compile Include="Assets\Plugins\FMOD\platforms\android\src\PlatformAndroid.cs" />
+     <Compile Include="Assets\Plugins\FMOD\platforms\win\src\PlatformWindows.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\Timeline\FMODEventTrack.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod_errors.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\AutomatableSlots.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioParameterTrigger.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\Timeline\FMODEventPlayable.cs" />
+     <Compile Include="Assets\Plugins\FMOD\platforms\mac\src\PlatformMac.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioEventEmitter.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Runtime\PlatformPlayInEditor.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\PlatformDefault.cs" />
      <Compile Include="Assets\Plugins\FMOD\platforms\linux\src\PlatformLinux.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\Platform.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\ParamRef.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\Settings.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Runtime\Timeline\FMODEventPlayable.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\PlatformMobileHigh.cs" />
-     <Compile Include="Assets\Plugins\FMOD\platforms\html5\src\PlatformWebGL.cs" />
-     <Compile Include="Assets\Plugins\FMOD\platforms\mac\src\PlatformMac.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Runtime\CodeGeneration.cs" />
      <None Include="Assets\Plugins\FMOD\README.txt" />
  <Reference Include="UnityEngine">
@@ -316,17 +316,26 @@
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1c1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Plastic.Antlr3.Runtime">
- <HintPath>C:/WorkHub/ResistorGames/GameFramework/Library/PackageCache/com.unity.collab-proxy@1.5.7/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
+ <Reference Include="Unity.Analytics.StandardEvents">
+ <HintPath>C:/WorkHub/ResistorGames/GameFramework/Library/PackageCache/com.unity.analytics@3.5.3/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="log4netPlastic">
  <HintPath>C:/WorkHub/ResistorGames/GameFramework/Library/PackageCache/com.unity.collab-proxy@1.5.7/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
  </Reference>
- <Reference Include="Newtonsoft.Json">
- <HintPath>C:/WorkHub/ResistorGames/GameFramework/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
+ <Reference Include="Unity.Analytics.Editor">
+ <HintPath>C:/WorkHub/ResistorGames/GameFramework/Library/PackageCache/com.unity.analytics@3.5.3/Unity.Analytics.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Plastic.Antlr3.Runtime">
+ <HintPath>C:/WorkHub/ResistorGames/GameFramework/Library/PackageCache/com.unity.collab-proxy@1.5.7/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Analytics.Tracker">
+ <HintPath>C:/WorkHub/ResistorGames/GameFramework/Library/PackageCache/com.unity.analytics@3.5.3/Unity.Analytics.Tracker.dll</HintPath>
  </Reference>
  <Reference Include="unityplastic">
  <HintPath>C:/WorkHub/ResistorGames/GameFramework/Library/PackageCache/com.unity.collab-proxy@1.5.7/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>C:/WorkHub/ResistorGames/GameFramework/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1c1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
