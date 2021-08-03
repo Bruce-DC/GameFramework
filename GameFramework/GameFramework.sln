@@ -1,17 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMODUnity", "FMODUnity.csproj", "{92e7f1f2-a736-7d3e-c30c-0132d0583ac5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{d3e4a03b-8261-0a23-d46d-44ebbaf70f90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMODUnityResonance", "FMODUnityResonance.csproj", "{47b01a9b-32f2-1977-222e-bf2f0320a0a0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{95f05100-6269-e55b-b2d7-2e5d28945b90}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMODUnityEditor", "FMODUnityEditor.csproj", "{824db5d5-4cb4-619e-bbb4-b2e1131d3ac3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMODUnityResonanceEditor", "FMODUnityResonanceEditor.csproj", "{658e2f1e-eec0-4445-eb66-9ae65ed215a3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,30 +11,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{92e7f1f2-a736-7d3e-c30c-0132d0583ac5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92e7f1f2-a736-7d3e-c30c-0132d0583ac5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92e7f1f2-a736-7d3e-c30c-0132d0583ac5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92e7f1f2-a736-7d3e-c30c-0132d0583ac5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{d3e4a03b-8261-0a23-d46d-44ebbaf70f90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{d3e4a03b-8261-0a23-d46d-44ebbaf70f90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{d3e4a03b-8261-0a23-d46d-44ebbaf70f90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{d3e4a03b-8261-0a23-d46d-44ebbaf70f90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{47b01a9b-32f2-1977-222e-bf2f0320a0a0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47b01a9b-32f2-1977-222e-bf2f0320a0a0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47b01a9b-32f2-1977-222e-bf2f0320a0a0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47b01a9b-32f2-1977-222e-bf2f0320a0a0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{95f05100-6269-e55b-b2d7-2e5d28945b90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95f05100-6269-e55b-b2d7-2e5d28945b90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95f05100-6269-e55b-b2d7-2e5d28945b90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95f05100-6269-e55b-b2d7-2e5d28945b90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{824db5d5-4cb4-619e-bbb4-b2e1131d3ac3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{824db5d5-4cb4-619e-bbb4-b2e1131d3ac3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{824db5d5-4cb4-619e-bbb4-b2e1131d3ac3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{824db5d5-4cb4-619e-bbb4-b2e1131d3ac3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{658e2f1e-eec0-4445-eb66-9ae65ed215a3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{658e2f1e-eec0-4445-eb66-9ae65ed215a3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{658e2f1e-eec0-4445-eb66-9ae65ed215a3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{658e2f1e-eec0-4445-eb66-9ae65ed215a3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
