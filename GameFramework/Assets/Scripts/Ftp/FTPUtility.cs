@@ -45,27 +45,27 @@ public class FTPUtility : MonoBehaviour
     /// 待下载的文件大小
     /// </summary>
     private long downloadFileSize = 0;
-    
-    /// <summary>
-    /// 是否正在下载中
-    /// </summary>
-    private bool isDownloading = true;
-    
-    /// <summary>
-    /// 每0.2秒更新一次界面上的下载速度
-    /// </summary>
-    private float updateDownloadSpeedTime = 0.2f;
 
     /// <summary>
-    /// 更新下载速度前，文件下载的大小
+    /// 更新下载速度时，上一次更新的时间
     /// </summary>
-    private long preDownloadSize = 0;
+    private DateTime lastUpdateTime;
 
     /// <summary>
-    /// 更新下载速度的时候，文件当前已经下载的大小
+    /// 更新下载速度时，上一次更新时的字节大小
     /// </summary>
-    private long curDownloadSize = 0;
+    private long lastByteSize = 0;
     
+    /// <summary>
+    /// 文件下载速度
+    /// </summary>
+    private string speed = "1.3M/s";
+
+    /// <summary>
+    /// 文件下载完成的回调
+    /// </summary>
+    private Action downloadCompleteCallback = null;
+
     /// <summary>
     /// 客户端本地存储主版本的文件的路径
     /// </summary>
@@ -115,11 +115,29 @@ public class FTPUtility : MonoBehaviour
     /// <param name="e"></param>
     private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
     {
-        curDownloadSize = e.BytesReceived;
+        if (lastByteSize == 0)
+        {
+            lastUpdateTime = DateTime.Now;
+            lastByteSize = e.BytesReceived;
+            return;
+        }
         
+        DateTime now = DateTime.Now;
+        TimeSpan timeSpan = now - lastUpdateTime;
+        double milliSeconds = timeSpan.TotalMilliseconds;
+
+        //每0.2秒刷新一次
+        if (milliSeconds >= 200)
+        {
+            speed = string.Format("{0}M/s",((e.BytesReceived - lastByteSize)/1024d/1024d / (milliSeconds/1000d)).ToString("0.00"));
+
+            lastByteSize = e.BytesReceived;
+            lastUpdateTime = DateTime.Now;
+        }
+
         float sliderValue = (float) e.BytesReceived / (float) downloadFileSize;
-        string progressStr = string.Format("{0} MB / {1} MB", (e.BytesReceived / 1024d / 1024d).ToString("0.00"), (downloadFileSize / 1024d / 1024d).ToString("0.00"));
-        GameVersion.Instance.UpdateDownloadInfo(sliderValue,progressStr);
+        string progressStr = string.Format("{0}MB/{1}MB", (e.BytesReceived / 1024d / 1024d).ToString("0.00"), (downloadFileSize / 1024d / 1024d).ToString("0.00"));
+        GameVersion.Instance.UpdateDownloadInfo(sliderValue,progressStr,speed);
     }
 
     /// <summary>
@@ -133,6 +151,12 @@ public class FTPUtility : MonoBehaviour
         if (e.Cancelled)
         {
             Debug.LogError("玩家取消下载");
+        }
+        else
+        {
+            Debug.LogError("下载完成！");
+            if (downloadCompleteCallback != null)
+                downloadCompleteCallback();
         }
     }
     
@@ -156,9 +180,11 @@ public class FTPUtility : MonoBehaviour
     /// 通过WebClient下载文件
     /// </summary>
     /// <param name="fileName">需要下载文件的文件名</param>
-    public void DownloadFileByWebClient(string fileName)
+    public void DownloadFileByWebClient(string fileName,Action callback = null)
     {
         downloadURL = String.Format("{0}{1}/{2}",ftpRootURL, Utility.GetPlatform(),fileName);
+
+        downloadCompleteCallback = callback;
         
         try
         {
@@ -172,8 +198,6 @@ public class FTPUtility : MonoBehaviour
                     Debug.LogError("获取资源大小出错");
                     return;
                 }
-
-                isDownloading = true;
                 WB.DownloadFileAsync(new Uri(downloadURL),Application.persistentDataPath + "/SaveFiles/" + downloadURL.Replace(ftpRootURL, ""));
             }
         }
@@ -204,25 +228,6 @@ public class FTPUtility : MonoBehaviour
         InitPersistentDataPath();
     }
 
-    private void Update()
-    {
-        if (isDownloading)
-        {
-            updateDownloadSpeedTime -= Time.deltaTime;
-            if (updateDownloadSpeedTime <= 0.0f)
-            {
-                updateDownloadSpeedTime += 0.2f;
-
-                if (curDownloadSize > preDownloadSize)
-                {
-                    GameVersion.Instance.UpdateDownloadSpeed(string.Format("下载速度为：{0}kb/s",
-                        ((curDownloadSize - preDownloadSize) / 1024 / 0.2f).ToString("0.00")));
-                    preDownloadSize = curDownloadSize;
-                }
-            }
-        }
-    }
-    
     private void OnDestroy()
     {
         if (WB != null)
@@ -231,8 +236,6 @@ public class FTPUtility : MonoBehaviour
             WB.DownloadProgressChanged -= new DownloadProgressChangedEventHandler(ProgressChanged);
             WB.CancelAsync();
         }
-
-        isDownloading = false;
     }
     #endregion
 }
