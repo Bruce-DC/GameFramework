@@ -61,8 +61,6 @@ public class GameVersion : MonoBehaviour
             masterVersionFilePath = string.Format("{0}/SaveFiles/{1}/{2}", Application.persistentDataPath,
                 Utility.GetPlatform(), masterVersionFileName);
 
-            Debug.Log(masterVersionFilePath);
-
             if (File.Exists(masterVersionFilePath))
             {
                 //TODO 拿版本文件中的版本与服务器的版本进行比对，获取需要更新的文件  下载需要更新的文件
@@ -76,12 +74,21 @@ public class GameVersion : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 文件下载完成回调
+    /// </summary>
     private void DownloadComplete()
     {
         Debug.LogError("下载完毕，开始解压！");
         UIRoot.Instance.ShowOrHideUI(UIRoot.CanvasType.Bottom,"",false);
     }
 
+    /// <summary>
+    /// 更新界面上的下载信息
+    /// </summary>
+    /// <param name="sliderValue">下载进度条</param>
+    /// <param name="progressStr">下载进度值</param>
+    /// <param name="speedStr">下载速度</param>
     public void UpdateDownloadInfo(float sliderValue, string progressStr, string speedStr)
     {
         if (uiSlider != null)
