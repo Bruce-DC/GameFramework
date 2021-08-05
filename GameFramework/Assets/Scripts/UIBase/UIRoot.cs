@@ -59,7 +59,8 @@ public class UIRoot : MonoBehaviour
                 canvas_Mid.transform.Find(uiName).gameObject.SetActive(isShow);
                 break;
             case CanvasType.Bottom:
-                canvas_Bottom.transform.Find(uiName).gameObject.SetActive(isShow);
+                if (canvas_Bottom.transform.Find(uiName))
+                    canvas_Bottom.transform.Find(uiName).gameObject.SetActive(isShow);
                 break;
         }
     }

@@ -80,7 +80,7 @@ public class GameVersion : MonoBehaviour
     private void DownloadComplete()
     {
         Debug.LogError("下载完毕，开始解压！");
-        UIRoot.Instance.ShowOrHideUI(UIRoot.CanvasType.Bottom,"",false);
+        UIRoot.Instance.ShowOrHideUI(UIRoot.CanvasType.Bottom,"DownloadingSlider",false);
     }
 
     /// <summary>
