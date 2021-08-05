@@ -154,7 +154,6 @@ public class FTPUtility : MonoBehaviour
         }
         else
         {
-            Debug.LogError("下载完成！");
             if (downloadCompleteCallback != null)
                 downloadCompleteCallback();
         }

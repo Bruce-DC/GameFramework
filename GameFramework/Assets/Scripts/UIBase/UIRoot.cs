@@ -43,7 +43,17 @@ public class UIRoot : MonoBehaviour
         {
             case CanvasType.Top:
                 if (canvas_Top.transform.Find(uiName))
+                {
                     canvas_Top.transform.Find(uiName).gameObject.SetActive(isShow);
+                }
+                else
+                {
+                    if (isShow)
+                    {
+                        
+                    }
+                }
+                    
                 break;
             case CanvasType.Mid:
                 canvas_Mid.transform.Find(uiName).gameObject.SetActive(isShow);

@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class EditorTools : Editor
 {
-    private static string SECRET_KEY = "lsdkangoashgasnjoghrnajkdfsbngikheiurtbga1s56tg4rae1eah4t8a423854w4e6547654fgsn/.;gh,ml;,";
+    private static string SECRET_KEY = "";
     
     
 
