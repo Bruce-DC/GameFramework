@@ -6,4 +6,4 @@
 
 local uiMap = require("UIMap")
 
-uiMap.zbs
+print(uiMap["loading"])

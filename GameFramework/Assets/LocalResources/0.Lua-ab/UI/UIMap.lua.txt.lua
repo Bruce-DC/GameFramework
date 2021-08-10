@@ -5,5 +5,5 @@
 ---
 
 UIMap = {
-    "loading":{}
+    ["loading"] = {}
 }

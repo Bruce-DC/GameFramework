@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         
-        GameVersion.Instance.CheckVersion();
+        //GameVersion.Instance.CheckVersion();
+        
+        LuaManager.Instance.RequireLuaScript("LuaManager");
     }
 
     // Update is called once per frame
