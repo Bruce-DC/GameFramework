@@ -13,6 +13,19 @@ public class GameManager : MonoBehaviour
         //GameVersion.Instance.CheckVersion();
         
         LuaManager.Instance.RequireLuaScript("LuaManager");
+        
+        ToBe();
+        HeHe();
+    }
+
+    public void ToBe()
+    {
+        Debug.LogError("TOBE");
+    }
+
+    public void HeHe()
+    {
+        Debug.LogError("HeHe");
     }
 
     // Update is called once per frame

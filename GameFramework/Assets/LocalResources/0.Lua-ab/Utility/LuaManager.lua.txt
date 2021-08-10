@@ -5,11 +5,11 @@
 ---
 
 ---工具类最先加载
-require("Utils/Utils")
-require("Utils/LuaHotfixManager")
+require("Utils")
+--require("LuaHotfixManager")
 
 local luaLog = require("LuaLog")
-local luaSort = require("Utils/LuaSort")
+local luaSort = require("LuaSort")
 
 local arr = {5,4,10,2,1,6,9,7,8}
 local arr2 = {["name"]="boshi",["age"]=27}

@@ -33,7 +33,7 @@ public class LuaManager : UnitySingleton<LuaManager>
     public static byte[] CustomLoader(ref string filePath)
     {
         string scriptPath = string.Empty;
-        filePath = filePath.Replace(".", "/") + ".lua";
+        filePath = filePath.Replace(".", "/") + ".lua.txt";
 
 #if UNITY_EDITOR
         scriptPath = Path.Combine(Application.dataPath, luaScriptsPath);

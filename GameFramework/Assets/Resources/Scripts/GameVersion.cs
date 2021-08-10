@@ -108,10 +108,5 @@ public class GameVersion : MonoBehaviour
         _instace = GetComponent<GameVersion>();
     }
 
-    private void Start()
-    {
-        CheckVersion();
-    }
-
     #endregion
 }
