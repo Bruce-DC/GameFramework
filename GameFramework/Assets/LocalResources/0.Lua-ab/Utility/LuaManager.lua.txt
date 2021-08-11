@@ -6,6 +6,7 @@
 
 ---工具类最先加载
 require("Utils")
+require("CSharp")
 --require("LuaHotfixManager")
 
 local luaLog = require("LuaLog")
@@ -20,25 +21,7 @@ arr = luaSort.QuitSort(arr)
 arr = luaSort.HeapSort(arr)
 luaLog.LogTableItem(arr)
 
-function A()
-    B()
-end
+--A()
 
-function B()
-C()
-end
 
-function C()
-D()
-end
-
-function D()
-E()
-end
-
-function E()
-    print("e")
-end
-
-A()
 
