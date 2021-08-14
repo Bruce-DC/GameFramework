@@ -7446,3 +7446,5 @@ GameFramework/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache
 GameFramework/obj/Debug/Assembly-CSharp-Editor.csproj.AssemblyReference.cache
 GameFramework/obj/
 GameFramework/Assets/XLua/Gen/
+GameFramework/Assembly-CSharp-Editor-firstpass.csproj
+GameFramework/Assembly-CSharp-firstpass.csproj
