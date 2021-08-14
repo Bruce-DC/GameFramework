@@ -6,4 +6,4 @@
 
 local uiMap = require("UIMap")
 
-print(uiMap["loading"])
+print(uiMap[1][1])
