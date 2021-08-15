@@ -1,1 +1,2 @@
-UnityEngine = CS.UnityEngine
+unityEngine = CS.UnityEngine
+gameobject = CS.UnityEngine.GameObject

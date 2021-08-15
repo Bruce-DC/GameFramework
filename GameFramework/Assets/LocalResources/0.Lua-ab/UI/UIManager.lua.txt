@@ -4,6 +4,28 @@
 --- DateTime: 2021年8月5日, 0005 下午 04:22
 ---
 
+UIManager = {}
+
 local uiMap = require("UIMap")
 
-print(uiMap[1][1])
+local showingUI = {}
+
+function createUIObj(uiName, isShow)
+   if(hasItemK(showingUI, uiName)) then
+      print("表里已经有了，不用再实例化")
+      if(isShow) then
+         showingUI[uiName].setActive(true)
+      end
+   else
+      print("表里还没有，需要实例化")
+      print(uiMap[uiName]["path"])
+   end
+
+
+end
+
+local function showUI(ui)
+
+end
+
+return UIManager

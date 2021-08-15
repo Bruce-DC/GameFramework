@@ -3,9 +3,10 @@
 --- Created by zbs.
 --- DateTime: 2021年8月5日, 0005 下午 04:21
 ---
-
+--UI预制体的表，
+--position：表示该预制体属于的canvas，1：TopCanvas；2：MidCanvas；3：BottomCanvas
 local UIMap = {
-    [1] = { [1] = "name", [2] = "path" }
+    ["DownloadingSlider"] = { ["name"] = "DownloadingSlider",       ["path"] = "LocalResources/2.Loading-ab/Prefabs",               ["position"] = 3,           ["order"] = 1 }
 }
 
 return UIMap

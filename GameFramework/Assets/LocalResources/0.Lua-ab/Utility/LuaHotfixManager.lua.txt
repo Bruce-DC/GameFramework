@@ -11,3 +11,5 @@ end)
 xlua.hotfix(CS.GameManager, "Hehe", function(self)
     print("我还把你也改了，气不气？")
 end)
+
+xlua.private
